@@ -1,0 +1,150 @@
+<h1>Surkon App</h1>
+<p>Calculate Circle Route Stake-Out Data As Simple As Water</p>
+
+<div class="initial_data_form_bundler">
+  <div class="method_form">
+    <label for="method">Pilih Metode Stake Out</label>
+    <select name="method" id="method" [(ngModel)]="method">
+      <option value="">Pilih Metode</option>
+      <option value="1">Metode Busur Sama Panjang</option>
+      <option value="2">Metode Selisih Absis Sama Panjang</option>
+      <option value="3">Metode Polar</option>
+    </select>
+  </div>
+  <div class="input_text_bundler">
+    <label for="circle_radius">Circle Radius (Rc)</label>
+    <input type="text" id="circle_radius" [(ngModel)]="Rc">
+  </div>
+  <div class="input_text_bundler">
+    <label for="alpha_1">Arah Tangen I (α_1)</label>
+    <input type="text" id="alpha_1" [(ngModel)]="alpha1">
+  </div>
+  <div class="input_text_bundler">
+    <label for="alpha_2">Arah Tangen II (α_2)</label>
+    <input type="text" id="alpha_2" [(ngModel)]="alpha2">
+  </div>
+
+  <button class="initial_data_btn" (click)="calculate()">Calculate !</button>
+</div>
+
+<div class="download_data_container">
+  <label for="download_as_excel">Download Table as Excel</label>
+  <input type="text" id="download_as_excel" [(ngModel)]="file_name">
+  <button (click)="downloadTable('table_stakeOut', 'data')">
+    Download
+  </button>
+</div>
+
+<div class="output_data_bundler" [ngSwitch]="method" *ngIf="showOutput">
+
+  <div class="method_1" *ngSwitchCase="'1'">
+    <div class="stakeOut_table">
+      <h2>Tabel Data Stake Out</h2>
+      <table id="table_stakeOut">
+        <tr>
+          <th>Titik (N)</th>
+          <th>phi_N</th>
+          <th>X_N</th>
+          <th>Y_N</th>
+        </tr>
+
+        <tr *ngFor="let data of data_stakeOut">
+          <td>{{data.titik}}</td>
+          <td>{{data.phi_N.toFixed(3)}}</td>
+          <td>{{data.X_N.toFixed(3)}}</td>
+          <td>{{data.Y_N.toFixed(3)}}</td>
+        </tr>
+
+      </table>
+    </div>
+
+    <div class="initialData_table">
+      <h2>Tabel Data Awal</h2>
+      <table>
+        <tr>
+          <th>delta_C</th>
+          <th>a (panjang busur segmen)</th>
+          <th>Lc (panjang lingkaran)</th>
+          <th>Jumlah Titik</th>
+        </tr>
+        <tr>
+          <td>{{delta_C}} derajat</td>
+          <td>{{a.toFixed(3)}} m</td>
+          <td>{{Lc.toFixed(3)}} m</td>
+          <td>{{n}} titik</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="method_2" *ngSwitchCase="'2'">
+    <div class="stakeOut_table">
+      <h2>Tabel Data Stake Out</h2>
+      <table id="table_stakeOut">
+        <tr>
+          <th>Titik (N)</th>
+          <th>X_N</th>
+          <th>Y_N</th>
+        </tr>
+
+        <tr *ngFor="let data of data_stakeOut">
+          <td>{{data.titik}}</td>
+          <td>{{data.X_N.toFixed(3)}}</td>
+          <td>{{data.Y_N.toFixed(3)}}</td>
+        </tr>
+
+      </table>
+    </div>
+
+    <div class="initialData_table">
+      <h2>Tabel Data Awal</h2>
+      <table>
+        <tr>
+          <th>Xn</th>
+          <th>deltaX</th>
+          <th>Jumlah Titik</th>
+        </tr>
+        <tr>
+          <td>{{Xn}} meter</td>
+          <td>{{deltaX.toFixed(3)}} m</td>
+          <td>{{n}} titik</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="method_3" *ngSwitchCase="'3'">
+    <div class="stakeOut_table">
+      <h2>Tabel Data Stake Out</h2>
+      <table id="table_stakeOut">
+        <tr>
+          <th>Titik (N)</th>
+          <th>phi_N</th>
+          <th>D_N</th>
+        </tr>
+
+        <tr *ngFor="let data of data_stakeOut">
+          <td>{{data.titik}}</td>
+          <td>{{data.phi_N.toFixed(3)}}</td>
+          <td>{{data.D_N.toFixed(3)}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="initialData_table">
+      <h2>Tabel Data Awal</h2>
+      <table>
+        <tr>
+          <th>phi</th>
+          <th>Jumlah Titik</th>
+        </tr>
+        <tr>
+          <td>{{phi.toFixed(3 )}} derajat</td>
+          <td>{{n}} titik</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+
